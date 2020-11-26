@@ -11,6 +11,7 @@ using namespace std;
 
 int n, m, k, si[Maxn][11];
 long long ans = INF;
+bool inpq[Maxn]; 
 
 struct Edge {
 	int u, v;
@@ -43,12 +44,13 @@ struct Graph {
 	}
 	
 	void Dijkstra() {
-		node[S].dis = 0ll;
+		node[S].dis = 0ll; inpq[S] = true;
 		pq.push(node[S]);
 		while (!pq.empty()) {
 			Node now = pq.top();pq.pop();
+			inpq[now.index] = false;
 			for (auto e : edge[now.index]) {
-				if (node[e.v].dis > now.dis + e.l) {
+				if (!inpq[e.v] && node[e.v].dis > now.dis + e.l) {
 					node[e.v].dis = now.dis + e.l;
 					pq.push(node[e.v]);
 				}
